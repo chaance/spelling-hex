@@ -1,32 +1,26 @@
+import * as React from "react";
+import { json } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
+import { getCacheControl } from "~/lib/util";
+import { SECONDS_PER_DAY } from "~/constants";
+import { Container } from "~/ui/container";
+
+export const loader: LoaderFunction = async () => {
+  return json<null>(null, {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": getCacheControl({
+        "max-age": 60 * 5,
+        "stale-while-revalidate": SECONDS_PER_DAY * 7,
+      }),
+    },
+  });
+};
+
 export default function Index() {
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.4" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
-    </div>
+    <Container>
+      <h1>Welcome to the Spelling Hex</h1>
+    </Container>
   );
 }
